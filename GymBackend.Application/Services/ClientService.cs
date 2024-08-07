@@ -35,6 +35,14 @@ namespace GymBackend.Application.Services
 
         }
 
+        public async Task<List<Progress>> GetClientProgress(int id)
+		{
+			return await _clientRepository.GetClientProgress(id);
+
+        }
+
+
+
         }
 }
 

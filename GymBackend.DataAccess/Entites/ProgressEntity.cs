@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using GymBackend.DataAccess.Entites;
 
 namespace GymBackend.DataAccess;
-
-[Table("progress")]
 
 public partial class ProgressEntity
 {

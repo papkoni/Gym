@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GymBackend.API.Contracts;
 using GymBackend.Application.Services;
 using GymBackend.DataAccess.Repositories;
@@ -18,17 +19,28 @@ namespace GymBackend.API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("AllClients")]
         public async Task<ActionResult<List<ClientsResponse>>> GetAllClients()
         {
             var clients = await _clientService.GetAllClients();
 
-            var response = clients.Select(b => new ClientsResponse(b.id, b.id_user, b.name, b.lastname, b.gender, b.birthday, b.phone));
+            var response = clients.Select(b => new ClientsResponse(b.Id, b.Id_user, b.Name, b.Lastname, b.Gender, b.Birthday, b.Phone));
+
+            return Ok(response);
+        }
+
+        [HttpGet("ClientProgress")]
+        public async Task<ActionResult<List<ProgressResponse>>> GetClientProgress(int id)
+        {
+            var progress = await _clientService.GetClientProgress(id);
+
+            var response = progress.Select(b => new ProgressResponse(b.Id, b.IdClient, b.Weight, b.HipChest, b.HipArm, b.HipGirth, b.Date));
 
             return Ok(response);
         }
 
 
-	}
+
+    }
 }
 

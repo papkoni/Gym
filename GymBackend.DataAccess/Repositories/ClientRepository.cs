@@ -1,4 +1,5 @@
 ﻿
+using System;
 using GymBackend.Core.Models;
 using GymBackend.DataAccess.Entites;
 using Microsoft.EntityFrameworkCore;
@@ -28,17 +29,50 @@ namespace GymBackend.DataAccess.Repositories
             return clients;
         }
 
+
+        public async Task<List<Progress>> GetClientProgress(int id)
+        {
+
+            Console.WriteLine(id + "    gfsgdf");
+
+
+            var clientEntity = await _context.Clients
+                .AsNoTracking()
+                .Include(c => c.Progresses)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+
+
+            Console.WriteLine(_context.Clients.Count(c => c.Id == id) + "response");
+
+
+
+            if (clientEntity != null)
+            {
+                var resultList = new List<Progress>();
+                foreach (var progress in clientEntity.Progresses)
+                {
+                    resultList.Add(new Progress(progress.Id, progress.IdClient, progress.Weight, progress.HipChest,
+                        progress.HipArm, progress.HipGirth, progress.Date));
+                }
+                return resultList;
+            }
+            Console.WriteLine("fdgfdag");
+            return new List<Progress>();
+        }
+
+
         public async Task<int> CreateClient(Client client)
         {
             var clientEntity = new ClientEntity
             {
-                Id = client.id,
-                IdUser = client.id_user,
-                Name = client.name,
-                Lastname = client.lastname,
-                Gender = client.gender,
-                Birthday = client.birthday,
-                Phone = client.phone,
+                Id = client.Id,
+                IdUser = client.Id_user,
+                Name = client.Name,
+                Lastname = client.Lastname,
+                Gender = client.Gender,
+                Birthday = client.Birthday,
+                Phone = client.Phone,
             };
 
             await _context.Clients.AddAsync(clientEntity);
@@ -71,6 +105,8 @@ namespace GymBackend.DataAccess.Repositories
             _context.Clients.Remove(client);
             return client.Id;
         }
+
+
 
 
     }
