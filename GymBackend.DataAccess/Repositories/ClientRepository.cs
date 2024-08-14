@@ -62,12 +62,13 @@ namespace GymBackend.DataAccess.Repositories
         }
 
 
-        public async Task<int> CreateClient(Client client)
+        public async Task<int> CreateClient(Client client, User user)
         {
+            var userId = await this.CreateUser(user);
+
             var clientEntity = new ClientEntity
             {
-                Id = client.Id,
-                IdUser = client.Id_user,
+                IdUser = userId,
                 Name = client.Name,
                 Lastname = client.Lastname,
                 Gender = client.Gender,
@@ -75,11 +76,31 @@ namespace GymBackend.DataAccess.Repositories
                 Phone = client.Phone,
             };
 
+
+
             await _context.Clients.AddAsync(clientEntity);
             await _context.SaveChangesAsync();
 
             return clientEntity.Id;
         }
+
+        public async Task<int> CreateUser(User user)
+        {
+            var userEntity = new UserEntity
+            {
+
+                Login = user.Login,
+                Password = user.Password
+            };
+
+
+
+            await _context.Users.AddAsync(userEntity);
+            await _context.SaveChangesAsync();
+
+            return userEntity.Id;
+        }
+
 
         public async Task<int> UpdateClient(int id, int id_user, string name, string lastname, string gender, DateTime birthday, string phone)
         {

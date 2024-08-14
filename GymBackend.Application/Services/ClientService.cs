@@ -19,9 +19,9 @@ namespace GymBackend.Application.Services
 			return await _clientRepository.GetAllClients();
         }
 
-		public async Task<int> CreateClient(Client client)
+		public async Task<int> CreateClient(Client client,User user)
 		{
-			return await _clientRepository.CreateClient(client);
+			return await _clientRepository.CreateClient(client, user);
         }
 
 		public async Task<int> UpdateClient(int id, int id_user, string name, string lastname, string gender, DateTime birthday, string phone)

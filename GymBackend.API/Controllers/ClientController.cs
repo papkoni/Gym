@@ -2,6 +2,7 @@
 using System.Linq;
 using GymBackend.API.Contracts;
 using GymBackend.Application.Services;
+using GymBackend.Core.Models;
 using GymBackend.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,21 @@ namespace GymBackend.API.Controllers
             var response = progress.Select(b => new ProgressResponse(b.Id, b.IdClient, b.Weight, b.HipChest, b.HipArm, b.HipGirth, b.Date));
 
             return Ok(response);
+        }
+
+        [HttpPost("Create")]
+
+        public async Task<ActionResult<int>> CreateClient([FromBody] CreateClientRequest request)
+        {
+            var client = new Client(request.Clients.name, request.Clients.lastname, request.Clients.gender, request.Clients.birthday, request.Clients.phone);
+
+            var user = new User(request.Users.login, request.Users.password);
+
+            await _clientService.CreateClient(client, user);
+
+            return Ok(client.Id_user);
+
+
         }
 
 

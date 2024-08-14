@@ -19,6 +19,21 @@ namespace GymBackend.Core.Models
 
         }
 
+        public Client(  string name, string lastname,
+            string gender, DateTime birthday, string phone)
+        {
+            
+            
+            this.Name = name;
+            this.Lastname = lastname;
+            this.Gender = gender;
+            this.Birthday = birthday;
+            this.Phone = phone;
+
+        }
+
+
+
         public int Id { get; }
         public int Id_user { get; }
         public string Name { get; } = String.Empty;
